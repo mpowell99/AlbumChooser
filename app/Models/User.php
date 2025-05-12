@@ -45,4 +45,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Many to many relationship with albums
+    public function albums() {
+        return $this->belongsToMany(Album::class)
+            ->withPivot('num_plays', 'last_played')
+            ->withTimestamps();
+    }
 }

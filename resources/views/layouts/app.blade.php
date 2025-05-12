@@ -16,7 +16,7 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+            {{-- @include('layouts.navigation') --}}
 
             <!-- Page Heading -->
             @isset($header)
@@ -28,7 +28,8 @@
             @endisset
 
             <!-- Page Content -->
-            <main>
+            <main class=''>
+                <x-page-header></x-page-header>
                 {{ $slot }}
             </main>
         </div>

@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('albums', function (Blueprint $table) {
-            $table->id();
-            $table->string('name', 191);
-            $table->foreignId('artist_id')->constrained();
-            $table->year('year');
-            $table->string('spotify_url', 191);
+        Schema::dropIfExists('album_user');
+
+        Schema::create('album_user', function (Blueprint $table) {
+            $table->foreignID('album_id')->constrained()->onDelete('cascade');
+            $table->foreignID('user_id')->constrained()->onDelete('cascade');
+            $table->primary(['album_id', 'user_id']);
             $table->smallInteger('num_plays')->default(0);
             $table->datetime('last_played')->nullable();
             $table->timestamps();
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('albums');
+        Schema::dropIfExists('album_user');
     }
 };
