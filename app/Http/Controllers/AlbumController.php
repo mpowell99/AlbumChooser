@@ -8,14 +8,24 @@ use Illuminate\Support\Facades\Auth;
 
 class AlbumController extends Controller
 {
-    public function last_played() {
+    public function index(Request $request) {
         if (Auth::guest()) {
             return view('home');
         }
 
-        $latest_played = Album::last_played_albums(24);
-        return view('latest_played', [
-            'albums' => $latest_played,
+        $orderBy = $request->input('orderby');
+        if ($orderBy === 'year') {
+            $albums = Album::orderBy('year', 'desc')->paginate(24);
+
+        } elseif ($orderBy === 'date_added') {
+            $albums = Album::orderBy('created_at', 'desc')->paginate(24);
+
+        } else {
+            $albums = Album::last_played_albums(24);
+        }
+
+        return view('album_grid', [
+            'albums' => $albums,
             'header' => 'Hello world',
         ]);
     }
@@ -43,6 +53,17 @@ class AlbumController extends Controller
         return view('album-choose', [
             'artist' => null,
             'albums' => $albums,
+        ]);
+    }
+
+    public function listen(Album $album) {
+        $user = Auth::user();
+        $user->increment_plays($album);
+
+        $userinfo = $album->users()->where('user_id', $user->id)->first()->pivot;
+        return view('album', [
+            'album' => $album,
+            'userinfo' => $userinfo,
         ]);
     }
 }

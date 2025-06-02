@@ -5,9 +5,11 @@ use App\Http\Controllers\ArtistController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [AlbumController::class, 'last_played'])->name('home');
+Route::get('/', [AlbumController::class, 'index'])->name('home');
 
 Route::get('album/{album}', [AlbumController::class, 'show'])->name('album');
+
+Route::get('listen/{album}', [AlbumController::class, 'listen'])->name('album.listen');
 
 Route::get('choose/', [AlbumController::class, 'choose'])->name('choose');
 

@@ -52,4 +52,15 @@ class User extends Authenticatable
             ->withPivot('num_plays', 'last_played')
             ->withTimestamps();
     }
+
+    public function num_plays() {
+        return $this->albums->sum('pivot.num_plays');
+    }
+
+    public function increment_plays(Album $album) {
+        $this->albums()->updateExistingPivot($album->id, [
+            'num_plays' => \DB::raw('num_plays + 1'),
+            'last_played' => now(),
+        ]);
+    }
 }
