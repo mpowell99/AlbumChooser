@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="flex flex-col gap-4 justify-center w-full p-2">
-        <x-header></x-header>
+        <x-header :showsort="false"></x-header>
         <div class="flex justify-center items-center gap-4">
             <div class="flex gap-4">
             <img class="rounded-lg shadow" src='{{ $album->cover() }}'>

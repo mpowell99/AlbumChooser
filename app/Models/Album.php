@@ -43,13 +43,27 @@ class Album extends Model
             ->withTimestamps();
     }
 
-    public function scopeSearch($query, $searchTerm) {
+    public function scopeSearch($query, $searchTerm, $order_by = 'name', $direction = 'asc') {
+        if (in_array($order_by, array("last_played", "date_added"))) {
+            if ($order_by == 'date_added') {
+                $order_by = 'created_at';
+            }
+            $userId = Auth::id();
+            return Album::join('album_user', 'albums.id', '=', 'album_user.album_id')
+                ->where('album_user.user_id', $userId)
+                ->where('name', 'like', '%' . $searchTerm . '%')
+                ->orWhereHas('artist', function ($q) use ($searchTerm) {
+                    $q->where('name', 'like', '%' . $searchTerm . '%');
+                })
+                ->orderBy('album_user.'.$order_by, $direction)
+                ->select('albums.*');
+        }
+
         return $query->where('name', 'like', '%' . $searchTerm . '%')
             ->orWhereHas('artist', function ($q) use ($searchTerm) {
                 $q->where('name', 'like', '%' . $searchTerm . '%');
             })
-            ->orderBy('name')
-            ->get(); // Ensure results are hydrated as models
+            ->orderBy($order_by, $direction);
     }
 
     public function num_plays() {

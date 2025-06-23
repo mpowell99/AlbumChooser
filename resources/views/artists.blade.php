@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="flex flex-col gap-4 justify-center w-full p-2">
-        <x-header></x-header>
+        <x-header :showsort="false"></x-header>
         <div class="flex flex-col justify-center align-center gap-4 max-w-[1200px] mx-auto">
             <table class="bg-white p-4 rounded-lg shadow-md">
                 <tr>

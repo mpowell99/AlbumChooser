@@ -40,8 +40,16 @@ class AlbumController extends Controller
     }
 
     public function search(Request $request) {
+        $order_by = $request->input('orderby') ?? "last_played";
+        if (in_array($order_by, array("year", "last_played", "date_added"))) {
+            $order_dir = "desc";
+        } else {
+            $order_dir = "asc";
+        }
+
         $query = $request->input('query');
-        $albums = Album::search($query);
+        $albums = Album::search($query, $order_by, $order_dir)->get();
+
         return view('search', [
             'albums' => $albums,
             'query' => $query,

@@ -53,6 +53,10 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    public function num_albums() {
+        return count($this->albums);
+    }
+
     public function num_plays() {
         return $this->albums->sum('pivot.num_plays');
     }

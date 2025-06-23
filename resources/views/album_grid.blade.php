@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="flex flex-col gap-4 justify-center w-full p-16 pt-4">
-        <x-header></x-header>
+        <x-header :showsort="true"></x-header>
         <div class="flex flex-wrap rounded-xl overflow-hidden">
         @foreach ($albums as $album)
             <a

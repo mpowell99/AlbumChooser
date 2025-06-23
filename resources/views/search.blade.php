@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="flex flex-col gap-4 justify-center w-full p-2">
 
-        <x-header></x-header>
+        <x-header :showsort="true"></x-header>
         <div class="flex flex-col px-16 max-w-max mx-auto">
 
         @if(isset($albums) && $albums->count() > 0)
